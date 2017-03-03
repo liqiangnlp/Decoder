@@ -1,0 +1,27 @@
+# pre-processing
+all_PreProcessing_FullToHalf	../data/preprocess-data/resource/full_to_half.all
+
+# prev-recognition
+#all_PrevRecognition_RegexRecognizer	../data/preprocess-data/resource/regex_recognizer.chi
+all_PrevRecognition_RegexRecognizer	../data/preprocess-data/resource/regex_recognizer_generalize.chi||||||../data/preprocess-data/resource/regex_recognizer_nogeneralize.chi
+chi_PreName_recognise	../data/preprocess-data/resource/h2f.big.c25.i100
+
+# segmentation
+chi_LM-Based_word_breaker	lex:../data/preprocess-data/resource/Dict0920/len2.lex||||||loc:../data/preprocess-data/resource/Dict0920/len2.loc||||||org:../data/preprocess-data/resource/bi.org.dict||||||psn:../data/preprocess-data/resource/Dict0920/len2.psn;
+
+# post-recognition
+all_PostRecognition_MergeAtomToCompose	../data/preprocess-data/resource/merge_atom_to_compose.chi
+chi_PostRecognition_PersonLoc	../data/preprocess-data/resource/post_recognition_person.chi+../data/preprocess-data/resource/post_recognition_loc.chi
+chi_Post_EasyFirst_Recognise	mod:../data/preprocess-data/resource/easyfirst/allNeScore.bin||||||fea:../data/preprocess-data/resource/easyfirst/allNeFeature.cpt||||||tmp:../data/preprocess-data/resource/easyfirst/templateName4.0.utf8||||||lab:../data/preprocess-data/resource/easyfirst/allNeWbTags.txt||||||nnd:../data/preprocess-data/resource/easyfirst/nonNameAll.utf8||||||inv:../data/preprocess-data/resource/easyfirst/invalidNameHz.utf8||||||las:../data/preprocess-data/resource/easyfirst/lastNames.utf8||||||cen:../data/preprocess-data/resource/easyfirst/chofEnName.txt
+chi_All_Post_Details	../data/preprocess-data/resource/user_bilingual_dict.chi
+
+# translation
+chi_Translation_ArabicNumToEngTranslate	../data/preprocess-data/resource/arabic_num_to_eng.chi
+chi_Translation_DateTranslator	../data/preprocess-data/resource/date_translator.chi
+chi_Translation_DictionaryTranslator	
+chi_Translation_BilingualDictionary	../data/preprocess-data/resource/bilingual_dictionaryV10.0.sort.chi
+chi_Translation_NumberTranslator	../data/preprocess-data/resource/number_translator.chi
+chi_Translation_TimeTranslator	../data/preprocess-data/resource/time_translator.chi
+chi_Translation_ChinumToArabicnum	../data/preprocess-data/resource/chinum_to_arabic_num.chi
+chi_Translation_NameTranslator	../data/preprocess-data/resource/name_translator.chi
+chi_Translate_Loc	../data/preprocess-data/resource/loc_translator.chi

@@ -1,0 +1,25 @@
+# control
+toLower	true
+
+# pre-processing
+eng_PreProcessing_MergerSpaces	
+all_PreProcessing_FullToHalf	../data/preprocess-data/resource/full_to_half.all
+
+# prev-recognition
+eng_PrevRecognition_Regex	../data/preprocess-data/resource/regex_recognizer_generalize.eng||||||../data/preprocess-data/resource/regex_recognizer_nogeneralize.eng
+
+# segmentation
+eng_Segmentation_Segmentation	../data/preprocess-data/resource/segmentation.eng
+
+# post-recognition
+all_PostRecognition_MergeAtomToCompose	../data/preprocess-data/resource/merge_atom_to_compose.eng
+all_post_detail_recoginize	../data/preprocess-data/resource/post_detail_recoginize.eng
+
+# translation
+eng_Translation_DateTranslator	../data/preprocess-data/resource/date_translator.eng
+eng_Translation_NumberTranslator	../data/preprocess-data/resource/number_translator.eng
+eng_Translation_EngNumToArabicNum	../data/preprocess-data/resource/eng_num_to_arabic_num.eng
+eng_Translation_TimeTranslator	../data/preprocess-data/resource/time_translator.eng
+eng_Translation_TransUsingDict	../data/preprocess-data/resource/trans_using_dict.eng
+eng_Translation_ArabicnumToChinum	../data/preprocess-data/resource/arabic_num_to_chi.eng
+eng_Translation_ChiNameInEng	../data/preprocess-data/resource/name_chiineng_translator.eng

@@ -1,0 +1,18 @@
+###########################################
+###     configuration file for SMT      ###
+###                                     ###
+###              2013-04-19             ###
+###########################################
+
+# config file for phrase-based decoder
+param="decoder-config-file"     value="../config/job.server/smt-config/NiuTrans.phrase.config"
+
+# config file for recaser
+param="recaser-config-file"     value="../config/job.server/smt-config/NiuTrans.phrase.recasing.config"
+
+# config file for translation memory
+param="tm-config-file"          value="../config/job.server/smt-config/NiuTrans.translation.memory.config"
+
+param="log"                     value="./log.txt"
+
+param="target-language"         value="en"

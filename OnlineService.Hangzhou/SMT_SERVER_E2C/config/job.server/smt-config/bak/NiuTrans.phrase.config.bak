@@ -1,0 +1,97 @@
+###########################################
+### NiuTrans decoder configuration file ###
+###          phrase-based system        ###
+###              2011-07-01             ###
+###########################################
+
+#>>> runtime resource tables
+
+# language model
+param="Ngram-LanguageModel-File"     value="../data/smt-data/phrase-model/lm.trie.data"
+
+# target-side vocabulary
+param="Target-Vocab-File"            value="../data/smt-data/phrase-model/lm.vocab"
+
+# MaxEnt-based lexicalized reordering model
+param="ME-Reordering-Table"          value="../data/smt-data/phrase-model/me.reordering.table"
+
+param="Phrase-Table-Binary"          value="../data/smt-data/phrase-model/phrase.translation.table.process.bina"
+param="Phrase-Table-Binary-SrcPhr"   value="../data/smt-data/phrase-model/phrase.translation.table.process.bina.src.phrtab.vocab"
+param="Phrase-Table-Binary-TgtPhr"   value="../data/smt-data/phrase-model/phrase.translation.table.process.bina.tgt.phrtab.vocab"
+
+#>>> runtime parameters
+
+# number of MERT iterations
+param="nround"                       value="15"
+
+# order of n-gram language model
+param="ngram"                        value="5"
+
+# beam size (or beam width)
+param="beamsize"                     value="50"
+
+# how many translations are dumped
+param="nbest"                        value="1"
+
+# number of references of dev. set
+param="nref"                         value="4"
+
+# distortion limit
+param="maxreorderdis"                value="10"
+
+# maximum phrase length
+param="maxphraselength"              value="3"
+
+# number of threads
+param="nthread"                      value="0"
+
+# use punctuation pruning (1) or not (0)
+# me
+param="usepunctpruning"              value="1"
+
+# use cube-pruning (1) or not (0)
+param="usecubepruning"               value="1"
+param="usecubepruninginc"            value="1"
+
+# use maxent reordering model (1) or not (0)
+param="use-me-reorder"               value="1"
+
+# use msd reordering model (1) or not (0)
+param="use-msd-reorder"              value="0"
+
+# output OOV words
+param="outputoov"                    value="1"
+
+param="labeloov"                     value="1"
+
+#param="freefeature"                  value="8"
+
+#>>> model parameters
+
+# features used
+#  0: n-gram language model
+#  1: number of target-words
+#  2: Pr(e|f). f->e translation probablilty.
+#  3: Lex(e|f). f->e lexical weight
+#  4: Pr(f|e). e->f translation probablilty.
+#  5: Lex(f|e). e->f lexical weight
+#  6: number of phrases
+#  7: number of bi-lex links (not fired in current version)
+#  8: number of NULL-translation (i.e. word deletion)
+#  9: MaxEnt-based lexicalized reordering model
+# 10: <UNDEFINED>
+# 11: MSD reordering model: Previous & Monotonic
+# 12: MSD reordering model: Previous & Swap
+# 13: MSD reordering model: Previous & Discontinuous
+# 14: MSD reordering model: Following & Monotonic
+# 15: MSD reordering model: Following & Swap
+# 16: MSD reordering model: Following & Discontinuous
+
+# bound the feature weight in MERT
+# e.g. the first number "-3:7" means that the first feature weight ranges in [-3, 7]
+param="ranges"                       value="0:7 0:3 0:3 0:3 0:3 0:3 0:3 0:0 0:0 0:4 0:0 0:0 0:0 0:0 0:0 0:0 0:0"
+
+# fix a dimention (1) or not (0)
+param="fixedfs"                      value="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0"
+
+param="weights"                      value="0.697921 1.078323 0.220409 0.228446 0.092241 0.060521 0.080437 0.000000 0.000000 0.894788 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000"
