@@ -1,0 +1,14 @@
+DECODING NORMAL      : --PBD  -MERT 0 -config NiuTrans.phrase.config -dev zhu\devset.small.txt -test  g:\sample-data\test.txt.1 -output niutransserver.output.txt -log niutransserver.log.txt
+DECODING BINARY BIG  : --PBDB         -config config/NiuTrans.phrase.utf8.big.config -dev zhu\devset.small.txt -test  G:\MY-WORK\NiuTransServer.Decoder\data\model.big\src.20.utf8 -output output/1best.bina.big -log output/1best.bina.log.big
+DECODING BINARY SMALL: --PBDB         -config config/NiuTrans.phrase.small.config -dev zhu\devset.small.txt -test  G:\MY-WORK\NiuTransServer.Decoder\data\model.small\src.test.1 -output output/1best.bina.small -log output/1best.bina.log.small
+DECODING SUPPORT SERVICE: 
+MERT                 : --PBD  -MERT 1 -config G:\MY-WORK\NiuTransServer.Decoder\Decoder\Decoder\config\NiuTrans.phrase.config -test g:\sample-data\model.1\src.20 -dev G:\MY-WORK\NiuTransServer.Decoder\Decoder\Decoder\resource\test.txt
+MERT                 : --PBD  -MERT 1 -config NiuTrans.phrase.config -test g:\sample-data\model.1\src.20 -dev zhu\devset.small.txt
+RECSING              : --REC  -config NiuTrans.phrase.recasing.config -test g:\sample-data\recase.model\lowercased.txt
+DETOKEN TOOL         : --DET  -input G:\MY-WORK\NiuTransServer.Decoder\Decoder\Decoder\output\detoken\c.token.filter.10000 -output G:\MY-WORK\NiuTransServer.Decoder\Decoder\Decoder\output\detoken\c.token.filter.10000.detoken -lang zh -punct G:\MY-WORK\NiuTransServer.Decoder\Decoder\Decoder\resource\punctuation.mapping.dat
+DETOKEN TOOL         : --DET  -input G:\MY-WORK\NiuTransServer.Decoder\Decoder\Decoder\output\detoken\e.token.filter.10000 -output G:\MY-WORK\NiuTransServer.Decoder\Decoder\Decoder\output\detoken\e.token.filter.10000.detoken -lang en
+CONV PT 2 BINA       : --CP2B -config NiuTrans.phrase.config -input G:\sample-data\transtable.filter.bak -output G:\sample-data\transtable.filter.bina
+Translation Memory   : --TM  -config G:\MY-WORK\NiuTransServer.Decoder\Decoder\Decoder\config\NiuTrans.translation.memory.config -input input\c.token.online c.token -output output\tm.results
+Training Translation Memory Model : --TTMM -src G:\MY-WORK\NiuTransServer.Decoder\Decoder\Decoder\input\c.token -tgt G:\MY-WORK\NiuTransServer.Decoder\Decoder\Decoder\input\e.token -out output\output.txt -punct G:\MY-WORK\NiuTransServer.Decoder\Decoder\Decoder\resource\punctuation.dat
+
+SUPPORT ONLINE SERVICE: G:\MY-WORK\NiuTransServer.Decoder\Decoder\Decoder\input\online.e2c\config\SMT.e2c.config G:\MY-WORK\NiuTransServer.Decoder\Decoder\Decoder\input\online.e2c\test-set\mt08-eng.and.9-SSMT2007.txt.utf8
