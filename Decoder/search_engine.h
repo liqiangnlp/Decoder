@@ -80,7 +80,7 @@ class SearchEngine {
   vector<list<pair<int, int> > > v_index_sentid_cnt_;
 
  public:
-  map<int, int> m_sentid_frequency_;
+  //map<int, int> m_sentid_frequency_;
 
  public:
   SearchEngine() {

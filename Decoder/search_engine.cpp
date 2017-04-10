@@ -237,9 +237,12 @@ bool SearchEngine::SearchInputFile() {
 #ifdef __DEBUG_SEARCH_ENGINE__
     out_file_tmp<<"Sentence: "<<line<<"\n";
 #endif
+    int unique_word_num = 0;
+    std::map<int, int> m_sentid_frequency;
     for (std::unordered_map<std::string, int>::iterator uno_iter = uno_words_freq.begin(); uno_iter != uno_words_freq.end(); ++uno_iter) {
 
       if (m_word_id_.find(uno_iter->first) != m_word_id_.end()) {
+        ++unique_word_num;
 #ifdef __DEBUG_SEARCH_ENGINE__
         out_file_tmp<<uno_iter->first<<"\n";
 #endif
@@ -248,7 +251,7 @@ bool SearchEngine::SearchInputFile() {
 #ifdef __DEBUG_SEARCH_ENGINE__
           out_file_tmp<<iter->first<<" "<<iter->second<<"\t"<<v_corpus_database_[iter->first]<<"\n";
 #endif
-          m_sentid_frequency_[iter->first] += iter->second;
+          m_sentid_frequency[iter->first] += iter->second;
         }
 #ifdef __DEBUG_SEARCH_ENGINE__
         out_file_tmp<<"\n";
@@ -265,8 +268,9 @@ bool SearchEngine::SearchInputFile() {
 #endif
 
     multimap<float, int> m_score_sentid;
-    for (map<int, int>::iterator iter = m_sentid_frequency_.begin(); iter != m_sentid_frequency_.end(); ++iter) {
-      float score = (float)iter->second/v_words_cnt_corpus_[iter->first].second;
+    for (map<int, int>::iterator iter = m_sentid_frequency.begin(); iter != m_sentid_frequency.end(); ++iter) {
+      //float score = (float)iter->second/v_words_cnt_corpus_[iter->first].second;
+      float score = (float)2 * iter->second/(unique_word_num + v_words_cnt_corpus_[iter->first].second);
       m_score_sentid.insert(make_pair(score, iter->first));
     }
 
@@ -277,7 +281,7 @@ bool SearchEngine::SearchInputFile() {
       if (output_count > topn_) {
         break;
       }
-      out_file<<output_count<<"\t"<<riter->first<<" "<<m_sentid_frequency_[riter->second]<<" "<<v_words_cnt_corpus_[riter->second].second<<" "<<v_words_cnt_corpus_[riter->second].first<<" "<<riter->second<<"\t"<<v_corpus_database_[riter->second]<<"\n";
+      out_file<<output_count<<"\t"<<riter->first<<" "<<m_sentid_frequency[riter->second]<<" "<<unique_word_num<<" "<<v_words.size()<<" "<<v_words_cnt_corpus_[riter->second].second<<" "<<v_words_cnt_corpus_[riter->second].first<<" "<<riter->second<<"\t"<<v_corpus_database_[riter->second]<<"\n";
     }
     out_file<<"===============================\n";
     if (line_no % 1000 == 0) {
