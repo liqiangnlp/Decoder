@@ -40,8 +40,10 @@
 #include <ctime>
 #include <map>
 #include <list>
+#include <unordered_map>
 #include "basic_method.h"
 #include "tokenizer.h"
+#include "debug.h"
 using namespace std;
 using namespace basic_method;
 using namespace decoder_tokenizer;
@@ -71,6 +73,7 @@ class SearchEngine {
 
  public:
   int ngram_;
+  int topn_;
 
  public:
   int index_size_;

@@ -45,6 +45,11 @@ bool SearchEngine::Initialize(map<string, string> &parameters) {
   string default_value = "1";
   CheckEachParameter(parameters, parameter_key, default_value);
   ngram_ = atoi(parameters[parameter_key].c_str());
+
+  parameter_key = "-topn";
+  default_value = "50";
+  CheckEachParameter(parameters, parameter_key, default_value);
+  topn_ = atoi(parameters[parameter_key].c_str());
   return true; 
 }
 
@@ -197,12 +202,14 @@ bool SearchEngine::SearchInputFile() {
    exit (1);
   }
 
+#ifdef __DEBUG_SEARCH_ENGINE__
   string out_file_tmp_name = output_file_name_ + ".tmp";
   ofstream out_file_tmp (out_file_tmp_name.c_str());
   if (!out_file_tmp) {
     cerr<<"ERROR: Can not open file \""<<out_file_tmp_name<<"\".\n"<<flush;
     exit(1);
   }
+#endif
 
   ofstream out_file (output_file_name_.c_str());
   if (!out_file) {
@@ -220,32 +227,69 @@ bool SearchEngine::SearchInputFile() {
     basic_method.RmStartSpace(line);
     basic_method.ClearIllegalChar(line);
 
-    if (m_word_id_.find(line) != m_word_id_.end()) {
-      out_file_tmp<<line<<"\n";
-      for (list<pair<int, int> >::iterator iter = v_index_sentid_cnt_[m_word_id_[line]].begin(); \
-           iter != v_index_sentid_cnt_[m_word_id_[line]].end(); ++iter) {
-        out_file_tmp<<iter->first<<" "<<iter->second<<"\t"<<v_corpus_database_[iter->first]<<"\n";
-        m_sentid_frequency_[iter->first] += iter->second;
+    std::vector<std::string> v_words;
+    basic_method.Split(line, ' ', v_words);
+    std::unordered_map<std::string, int> uno_words_freq; 
+    for (std::vector<std::string>::iterator iter = v_words.begin(); iter != v_words.end(); ++iter) {
+      ++uno_words_freq[*iter];
+    }
+
+#ifdef __DEBUG_SEARCH_ENGINE__
+    out_file_tmp<<"Sentence: "<<line<<"\n";
+#endif
+    for (std::unordered_map<std::string, int>::iterator uno_iter = uno_words_freq.begin(); uno_iter != uno_words_freq.end(); ++uno_iter) {
+
+      if (m_word_id_.find(uno_iter->first) != m_word_id_.end()) {
+#ifdef __DEBUG_SEARCH_ENGINE__
+        out_file_tmp<<uno_iter->first<<"\n";
+#endif
+        for (list<pair<int, int> >::iterator iter = v_index_sentid_cnt_[m_word_id_[uno_iter->first]].begin(); \
+             iter != v_index_sentid_cnt_[m_word_id_[uno_iter->first]].end(); ++iter) {
+#ifdef __DEBUG_SEARCH_ENGINE__
+          out_file_tmp<<iter->first<<" "<<iter->second<<"\t"<<v_corpus_database_[iter->first]<<"\n";
+#endif
+          m_sentid_frequency_[iter->first] += iter->second;
+        }
+#ifdef __DEBUG_SEARCH_ENGINE__
+        out_file_tmp<<"\n";
+#endif
+      } else {
+#ifdef __DEBUG_SEARCH_ENGINE__
+        out_file_tmp<<uno_iter->first<<"\n"
+                    <<"-1 0\tNOT FOUND\n\n";
+#endif
       }
-      out_file_tmp<<"\n";
-    } else {
-      out_file_tmp<<line<<"\n"
-              <<"-1 0\tNOT FOUND\n\n";
+    }
+#ifdef __DEBUG_SEARCH_ENGINE__
+    out_file_tmp<<"===============================\n";
+#endif
+
+    multimap<float, int> m_score_sentid;
+    for (map<int, int>::iterator iter = m_sentid_frequency_.begin(); iter != m_sentid_frequency_.end(); ++iter) {
+      float score = (float)iter->second/v_words_cnt_corpus_[iter->first].second;
+      m_score_sentid.insert(make_pair(score, iter->first));
+    }
+
+    out_file<<"[SENTENCE] "<<line<<"\n\n";
+    int output_count = 0;
+    for (multimap<float, int>::reverse_iterator riter = m_score_sentid.rbegin(); riter != m_score_sentid.rend(); ++riter) {
+      ++output_count;
+      if (output_count > topn_) {
+        break;
+      }
+      out_file<<output_count<<"\t"<<riter->first<<" "<<m_sentid_frequency_[riter->second]<<" "<<v_words_cnt_corpus_[riter->second].second<<" "<<v_words_cnt_corpus_[riter->second].first<<" "<<riter->second<<"\t"<<v_corpus_database_[riter->second]<<"\n";
+    }
+    out_file<<"===============================\n";
+    if (line_no % 1000 == 0) {
+      std::cerr<<"\r  "<<line_no<<" sentences";
     }
   }
-
-  multimap<float, int> m_score_sentid;
-  for (map<int, int>::iterator iter = m_sentid_frequency_.begin(); iter != m_sentid_frequency_.end(); ++iter) {
-    float score = (float)iter->second/v_words_cnt_corpus_[iter->first].second;
-    m_score_sentid.insert(make_pair(score, iter->first));
-  }
-
-  for (multimap<float, int>::reverse_iterator riter = m_score_sentid.rbegin(); riter != m_score_sentid.rend(); ++riter) {
-    out_file<<riter->first<<" "<<m_sentid_frequency_[riter->second]<<" "<<v_words_cnt_corpus_[riter->second].second<<" "<<v_words_cnt_corpus_[riter->second].first<<" "<<riter->second<<"\t"<<v_corpus_database_[riter->second]<<"\n";
-  }
+  std::cerr<<"\r  "<<line_no<<" sentences\n";
 
   search_file.close();
+#ifdef __DEBUG_SEARCH_ENGINE__
   out_file_tmp.close();
+#endif
   out_file.close();
   return true;
 }

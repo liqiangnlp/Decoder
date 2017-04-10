@@ -34,6 +34,7 @@
 #include <map>
 #include <vector>
 #include <cmath>
+#include <algorithm>
 #include "debug.h"
 #include "basic_method.h"
 

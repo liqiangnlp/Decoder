@@ -41,6 +41,7 @@ namespace debug
 //#define __DEBUG_MULTITHREAD__
 #define __DEBUG_ONLINESERVICE_LOG__
 //#define __DEBUG_IBM_BLEU_SCORE__
+//#define __DEBUG_SEARCH_ENGINE__
 }
 
 #endif

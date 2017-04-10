@@ -1,0 +1,1 @@
+--BUILDINDEX -stopword D:\test\search-engine\stopword\stopword.en -corpus D:\test\search-engine\input\e.input.txt.10000 -index D:\test\search-engine\input\e.input.txt.10000.index -prefixfile D:\test\search-engine\stopword\nonbreaking_prefix.en

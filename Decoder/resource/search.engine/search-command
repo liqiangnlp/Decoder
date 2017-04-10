@@ -1,0 +1,1 @@
+--SEARCH -corpus D:\test\search-engine\input\e.input.txt.10000.clean -index D:\test\search-engine\input\e.input.txt.10000.index -search D:\test\search-engine\input\search-sentence.txt -output D:\test\search-engine\input\search-sentence-result -topn 50
